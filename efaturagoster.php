@@ -51,7 +51,7 @@ function DosyaUzantisiTuru($dosya)  //Dosya Adindan Dosya Turu
 
 
 
-function Zip_DosyaSayisi($dosya)
+function ZipIcindeki_DosyaSayisi($dosya)
 {
 	$zip = new ZipArchive();
 	$zip->open($dosya);
@@ -61,7 +61,9 @@ function Zip_DosyaSayisi($dosya)
 	return $hedefdosyasayisi;
 }
 
-function Zip_XMLUzantisi($dosya)
+
+
+function ZipIcindeki_DosyaUzantisi($dosya)
 {
 	$zip = new ZipArchive();
 	$zip->open($dosya);
@@ -70,23 +72,13 @@ function Zip_XMLUzantisi($dosya)
 	
 	$dosyayolu = pathinfo($hedefdosyaadi);
 	$hedefdosyaturu=strtolower($dosyayolu['extension']);
-	
-	if($hedefdosyaturu== "xml")
-		{   
-			$kontrolsonucu="true";
-		}
-		else
-		{
-			$kontrolsonucu="false";
-		}
 	$zip->close($dosya);
 	
-	return $kontrolsonucu;
+	return $hedefdosyaturu;
 }
 
 
-
-function Zip_DosyaIcerigiTuru($dosya)
+function ZipIcindeki_DosyaIcerigiTuru($dosya)
 {
 	$zip = new ZipArchive();
 	$zip->open($dosya);
@@ -115,6 +107,12 @@ function Zip_DosyaIcerigiTuru($dosya)
 
 
 
+
+
+
+
+
+
 if($_FILES["zip_file"]["name"]) 
 {
 	$dosyaadi = $_FILES["zip_file"]["name"];
@@ -136,11 +134,13 @@ if( DosyaUzantisiTuru($dosyaadi) == "zip" )  //Dosya adı uzantısı .zip mi?
 		DosyaIcerigiTuru($kaynakdosya) == "application/x-compressed" )            // Dosya içeriğini zip mi?
 		
 		{	
-			if( Zip_DosyaSayisi($kaynakdosya)=="1")       //Dosyanın içinde 1 dosya var mı?
+			if( ZipIcindeki_DosyaSayisi($kaynakdosya)=="1")       //Dosyanın içinde 1 dosya var mı?
 				{
-					if( Zip_XMLUzantisi($kaynakdosya)=="true")
+					
+//************************************************************* İçinde XML varsa ***************************************************
+					if( ZipIcindeki_DosyaUzantisi($kaynakdosya) =="xml")
 						{
-							if( Zip_DosyaIcerigiTuru($kaynakdosya) == "application/xml" or  Zip_DosyaIcerigiTuru($kaynakdosya) == "text/xml" )            // Dosya içeriğini xml mi?
+							if( ZipIcindeki_DosyaIcerigiTuru($kaynakdosya) == "application/xml" or  ZipIcindeki_DosyaIcerigiTuru($kaynakdosya) == "text/xml" )            // Dosya içeriğini xml mi?
 								{
 									//dosya yükleme
 									$hedef_yol = $gecici_klasor."/".$dosyaadi; 
@@ -162,25 +162,124 @@ if( DosyaUzantisiTuru($dosyaadi) == "zip" )  //Dosya adı uzantısı .zip mi?
 										}
 									else
 										{
-											exit("Dosya yüklenemedi.");
+											echo "Dosya yüklenemedi.";
+										    exit();
 										}
 										
 								}
 							else
 								{
-									exit("Zip içerisinde geçerli bir XML dosyası mevcut değil. Dosya İçeriği Türü:".Zip_DosyaIcerigiTuru($kaynakdosya));
+									echo "Zip içerisinde geçerli bir XML dosyası mevcut değil. Dosya İçeriği Türü:".ZipIcindeki_DosyaIcerigiTuru($kaynakdosya);
+									exit();
 								}	
 										
 						}
+						
+//************************************************************* İçinde Zip varsa ***************************************************
+					elseif( ZipIcindeki_DosyaUzantisi($kaynakdosya) =="zip")
+						{
+							if( ZipIcindeki_DosyaIcerigiTuru($kaynakdosya) == "application/zip" or  
+							    ZipIcindeki_DosyaIcerigiTuru($kaynakdosya) == "application/x-zip-compressed" or
+                                ZipIcindeki_DosyaIcerigiTuru($kaynakdosya) == "multipart/x-zip" or 
+                                ZipIcindeki_DosyaIcerigiTuru($kaynakdosya) == "application/x-compressed") 
+								{
+
+									//Zip dosyasını Aç
+									$hedef_yol = $gecici_klasor."/".$dosyaadi; 
+									if(move_uploaded_file($kaynakdosya, $hedef_yol)) 
+										{
+											$zip = new ZipArchive();
+											$x = $zip->open($hedef_yol);
+						
+											if ($x === true) 
+												{      
+													$zipicindekizip=$zip->getNameIndex(0);                 // zip dosyasından dosya adı al
+													$zipicindekidosyaadi=DosyaAdi($zipicindekizip);		 						
+													$zipicindekidosyaturu=DosyaUzantisiTuru($zipicindekizip); 
+													$zip->extractTo($gecici_klasor."/".$yuklenendosyaadi."/"); 
+													$zip->close();
+													unlink($hedef_yol);
+												}
+	
+	
+	
+//***************************************************************** İkinci Zip dosyası Başlangıç **********************************************************************************
+	                                    $ikincizipdosyasi = $gecici_klasor."/".$yuklenendosyaadi."/".$zipicindekidosyaadi.".".$zipicindekidosyaturu;
+												
+											if( ZipIcindeki_DosyaSayisi($ikincizipdosyasi)=="1")       //Dosyanın içinde 1 dosya var mı?
+												{
+													if( ZipIcindeki_DosyaUzantisi($ikincizipdosyasi) =="xml")
+														{
+															if( ZipIcindeki_DosyaIcerigiTuru($ikincizipdosyasi) == "application/xml" or  ZipIcindeki_DosyaIcerigiTuru($ikincizipdosyasi) == "text/xml" )            // Dosya içeriğini xml mi?
+																{		
+																	$ikinci_hedef_yol = $gecici_klasor."/".$yuklenendosyaadi."/".$zipicindekidosyaadi.".".$zipicindekidosyaturu; 
+																	$ikinci_zip = new ZipArchive();
+																	$y = $ikinci_zip->open($ikinci_hedef_yol);											
+											
+																	if ($y === true) 
+																		{      
+																			$zipicindekidosya=$ikinci_zip->getNameIndex(0);                 // zip dosyasından dosya adı al
+																			$hedefdosyaadi=DosyaAdi($zipicindekidosya);		 						
+																			$hedefdosyaturu=DosyaUzantisiTuru($zipicindekidosya); 
+																			$ikinci_zip->extractTo($gecici_klasor."/".$yuklenendosyaadi."/"); 
+																			$ikinci_zip->close();
+																			unlink($ikinci_hedef_yol);
+																		}
+																}	
+															else
+																{
+																	echo "İkinci Zip içerisinde geçerli bir XML dosyası mevcut değil. Dosya İçeriği Türü:".ZipIcindeki_DosyaIcerigiTuru($ikincizipdosyasi);
+																	unlink($ikincizipdosyasi); rmdir($gecici_klasor."/".$yuklenendosyaadi."/"); 
+																	exit();
+																}
+										
+														}
+													else
+														{
+															echo "İkinci Zip içerisindeki dosyanın uzantısı XML değil. Dosya Uzantısı:".ZipIcindeki_DosyaUzantisi($ikincizipdosyasi);
+															unlink($ikincizipdosyasi); rmdir($gecici_klasor."/".$yuklenendosyaadi."/"); 
+															exit();
+														}	
+										
+												}
+											else
+												{
+													echo "İkinci Zip dosyası birden fazla dosya içeriyor. Dosya sayısı:".ZipIcindeki_DosyaSayisi($ikincizipdosyasi);
+													unlink($ikincizipdosyasi); rmdir($gecici_klasor."/".$yuklenendosyaadi."/"); 
+													exit();
+												}
+//***************************************************************** İkinci Zip dosyası Bitiş **********************************************************************************
+										}
+									else
+										{
+											echo "Dosya yüklenemedi.";
+											rmdir($gecici_klasor."/".$yuklenendosyaadi."/"); 
+										    exit();
+										}	
+										
+								}
+							else
+								{
+									echo "Zip içerisinde geçerli bir Zip dosyası mevcut değil. Dosya İçeriği Türü:".ZipIcindeki_DosyaIcerigiTuru($kaynakdosya);
+									rmdir($gecici_klasor."/".$yuklenendosyaadi."/"); 
+									exit();
+								}
+								
+						}
 					else
 						{
-							exit("XML dosyası içermiyor. Sonuç:".Zip_XMLUzantisi($kaynakdosya));
-						}
-				
+							echo "Zip içerisindeki dosyanın uzantısı Zip değil. Dosya Uzantısı:".ZipIcindeki_DosyaUzantisi($kaynakdosya);
+							rmdir($gecici_klasor."/".$yuklenendosyaadi."/"); 
+						    exit();
+						}		
+								
+								
 				}
 			else
 				{
-					exit("Zip dosyası birden fazla dosya içeriyor. Dosya sayısı:".Zip_DosyaSayisi($kaynakdosya));
+					echo "Zip dosyası birden fazla dosya içeriyor. Dosya sayısı:".ZipIcindeki_DosyaSayisi($kaynakdosya);
+					rmdir($gecici_klasor."/".$yuklenendosyaadi."/"); 
+				    exit();
 	
 				}
 		
@@ -188,7 +287,9 @@ if( DosyaUzantisiTuru($dosyaadi) == "zip" )  //Dosya adı uzantısı .zip mi?
 		}
 	else
 		{
-			exit("Geçerli bir Zip dosyası değil. Dosya İçeriği Türü:".DosyaIcerigiTuru($kaynakdosya));
+			echo "Geçerli bir Zip dosyası değil. Dosya İçeriği Türü:".DosyaIcerigiTuru($kaynakdosya);
+			 rmdir($gecici_klasor."/".$yuklenendosyaadi."/"); 
+			 exit();
 	
 		}
 		
@@ -217,13 +318,13 @@ elseif ( DosyaUzantisiTuru($dosyaadi) == "xml" )   //Dosya adı uzantısı .xml 
 				}
 			else
 				{
-					exit("Geçerli bir XML dosyası değil. Dosya İçeriği Türü:".DosyaIcerigiTuru($kaynakdosya));
+					echo "Geçerli bir XML dosyası değil. Dosya İçeriği Türü:".DosyaIcerigiTuru($kaynakdosya); $hedefdosyaadi=Null;
 				}				
 					
 		}
 	else
 		{
-			exit("Zip ya da XML dosyası değil. Dosya:".DosyaUzantisiTuru($dosyaadi));
+			echo "Zip ya da XML dosyası değil. Dosya:".DosyaUzantisiTuru($dosyaadi); $hedefdosyaadi=Null;
 		}
 
 
