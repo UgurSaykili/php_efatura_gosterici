@@ -15,7 +15,9 @@ Geliştirici: Murat KARAGÖZ (murat.karagoz@hotmail.com.tr)
 
 ## Gereksinimleri
 PHP FileInfo eklentisi   (extension=php_fileinfo.dll)
+
 PHP XSL eklentisi        (extension=php_xsl.dll)
+
 PHP ZipArchive eklentisi (PHP 5 >= 5.2.0, PHP 7, PECL zip >= 1.1.0)
 
 ### Lisans
