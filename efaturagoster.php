@@ -11,7 +11,6 @@ error_reporting(-1);
 //Ayarlar
 	$klasor_yolu=dirname( __FILE__ );
 	$gecici_klasor=dirname( __FILE__ )."/gecici";
-	$yedek_xsl=dirname( __FILE__ )."/xslsablon/efatura.xsl";
 //Ayarlar
 
 
@@ -352,12 +351,15 @@ if (file_exists($gecici_klasor."/".$yuklenendosyaadi."/".$hedefdosyaadi.".xml"))
    
 //****************************************XSL Dosyası Oluştur**********************************************************
 		$fn = $gecici_klasor."/".$yuklenendosyaadi."/".$hedefdosyaadi.".xml"; 
-		$data = new SimpleXmlElement($fn,null,true); 
-		$EmbeddedDocumentBinaryObject=$data->children('cac', true)->AdditionalDocumentReference->children('cac', true)->children('cbc', true)->EmbeddedDocumentBinaryObject;
+		$data = file_get_contents($fn);
+		preg_match_all("#<cbc:EmbeddedDocumentBinaryObject.*?>([^<]+)</cbc:EmbeddedDocumentBinaryObject>#", $data, $xsl_ara);
+
+		$EmbeddedDocumentBinaryObject=$xsl_ara[1][0];
+
 		
 		if (!$EmbeddedDocumentBinaryObject) 
 		{
-			$EmbeddedDocumentBinaryObject=base64_encode(file_get_contents($yedek_xsl));     //Eğer xml içerisinde xsl yoksa yedek xsl kullan
+			echo "<br> HATA: Yüklenen dosya içinde XSL dosyası bulunamadı. </br>"; 
 		}
 		
 		$xsl_dosyasi=base64_decode($EmbeddedDocumentBinaryObject);
