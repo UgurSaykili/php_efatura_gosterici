@@ -9,7 +9,7 @@
 
 3)Dosya uzantısı denetimi yapar.
 
-4)Efatura dosyalarınızı özgün bir şekilde gösterir.
+4)Efatura dosyalarınızı HTML biçiminde şekilde gösterir.
 
 Geliştirici: Murat KARAGÖZ (murat.karagoz@hotmail.com.tr)
 
