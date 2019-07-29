@@ -2,14 +2,15 @@
 # PHP ile GİB E-Fatura Gösterme
 
 Özellikleri:
+1) Temel fatura, Ticari fatura , Uygulama yanıtı kabul, Uygulama yanıtı red, Temel fatura KDV sıfır, Temel fatura iade ve Zarf dosyalarını açar.
 
-1)Zip ile sıkıştırılmış Efatura dosyasını açar
+2)Zip ile sıkıştırılmış Efatura dosyasını açar
 
-2)Dosya içeriği denetimi yapar.
+3)Dosya içeriği denetimi yapar.
 
-3)Dosya uzantısı denetimi yapar.
+4)Dosya uzantısı denetimi yapar.
 
-4)Efatura dosyalarınızı HTML biçiminde şekilde gösterir.
+5)Efatura dosyalarınızı HTML biçiminde şekilde gösterir.
 
 Geliştirici: Murat KARAGÖZ (murat.karagoz@hotmail.com.tr)
 
