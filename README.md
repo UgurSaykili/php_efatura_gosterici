@@ -1,7 +1,7 @@
 
 # PHP ile GİB E-Fatura Gösterme
 
-Özellikleri:
+## Özellikleri:
 
 1)Temel fatura, Ticari fatura , Uygulama yanıtı kabul, Uygulama yanıtı red, Temel fatura KDV sıfır, Temel fatura iade ve Zarf dosyalarını açar.
 
