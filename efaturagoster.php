@@ -1,4 +1,13 @@
 <?php
+//hataları göster
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+//hataları göster
+
+
+
+
 //Ayarlar
 	$klasor_yolu=dirname( __FILE__ );
 	$gecici_klasor=dirname( __FILE__ )."/gecici";
@@ -140,7 +149,7 @@ if( DosyaUzantisiTuru($dosyaadi) == "zip" )  //Dosya adı uzantısı .zip mi?
 //************************************************************* İçinde XML varsa ***************************************************
 					if( ZipIcindeki_DosyaUzantisi($kaynakdosya) =="xml")
 						{
-							if( ZipIcindeki_DosyaIcerigiTuru($kaynakdosya) == "application/xml" or  ZipIcindeki_DosyaIcerigiTuru($kaynakdosya) == "text/xml" )            // Dosya içeriğini xml mi?
+							if( ZipIcindeki_DosyaIcerigiTuru($kaynakdosya) == "application/xml" or  ZipIcindeki_DosyaIcerigiTuru($kaynakdosya) == "text/xml" or  ZipIcindeki_DosyaIcerigiTuru($kaynakdosya) == "text/plain" )            // Dosya içeriğini xml mi?
 								{
 									//dosya yükleme
 									$hedef_yol = $gecici_klasor."/".$dosyaadi; 
@@ -210,7 +219,7 @@ if( DosyaUzantisiTuru($dosyaadi) == "zip" )  //Dosya adı uzantısı .zip mi?
 												{
 													if( ZipIcindeki_DosyaUzantisi($ikincizipdosyasi) =="xml")
 														{
-															if( ZipIcindeki_DosyaIcerigiTuru($ikincizipdosyasi) == "application/xml" or  ZipIcindeki_DosyaIcerigiTuru($ikincizipdosyasi) == "text/xml" )            // Dosya içeriğini xml mi?
+															if( ZipIcindeki_DosyaIcerigiTuru($ikincizipdosyasi) == "application/xml" or  ZipIcindeki_DosyaIcerigiTuru($ikincizipdosyasi) == "text/xml" or  ZipIcindeki_DosyaIcerigiTuru($ikincizipdosyasi) == "text/plain")            // Dosya içeriğini xml mi?
 																{		
 																	$ikinci_hedef_yol = $gecici_klasor."/".$yuklenendosyaadi."/".$zipicindekidosyaadi.".".$zipicindekidosyaturu; 
 																	$ikinci_zip = new ZipArchive();
@@ -304,7 +313,7 @@ if( DosyaUzantisiTuru($dosyaadi) == "zip" )  //Dosya adı uzantısı .zip mi?
 
 elseif ( DosyaUzantisiTuru($dosyaadi) == "xml" )   //Dosya adı uzantısı .xml mi?
 		{
-			if( DosyaIcerigiTuru($kaynakdosya) == "application/xml" or DosyaIcerigiTuru($kaynakdosya) == "text/xml" )  // Dosya içeriğini XML mi?
+			if( DosyaIcerigiTuru($kaynakdosya) == "application/xml" or DosyaIcerigiTuru($kaynakdosya) == "text/xml" or DosyaIcerigiTuru($kaynakdosya) == "text/plain")  // Dosya içeriğini XML mi?
 				{
 					$hedefdosyaadi=$yuklenendosyaadi;
 					
