@@ -18,10 +18,9 @@ Geliştirici: Murat KARAGÖZ (murat.karagoz@hotmail.com.tr)
 ## Kullanımı
 ```php
 include 'efaturagoster.php';
-$efaturagoster = new EFaturaGoster;
 
-$FaturaXslDosyasi= $efaturagoster->FaturaXslDosyasiOlustur($FaturaXmlDosyasi);
-$FaturaHtmlDosyasi=$efaturagoster->FaturaHtmlDosyasiOlustur($FaturaXmlDosyasi);
+$FaturaXslDosyasi= FaturaXslDosyasiOlustur($FaturaXmlDosyasi);
+$FaturaHtmlDosyasi=FaturaHtmlDosyasiOlustur($FaturaXmlDosyasi);
 
 echo $FaturaHtmlDosyasi;
  ``` 
