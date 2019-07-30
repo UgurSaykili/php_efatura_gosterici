@@ -26,11 +26,11 @@ echo $FaturaHtmlDosyasi;
  ``` 
  
 ## Gereksinimleri
-PHP FileInfo eklentisi   (extension=php_fileinfo.dll)
-
 PHP XSL eklentisi        (extension=php_xsl.dll)
 
-PHP ZipArchive eklentisi (PHP 5 >= 5.2.0, PHP 7, PECL zip >= 1.1.0)
+PHP FileInfo eklentisi   (extension=php_fileinfo.dll)    //Önbellekli Demo için gerekli
+
+PHP ZipArchive eklentisi (PHP 5 >= 5.2.0, PHP 7, PECL zip >= 1.1.0) //Önbellekli Demo için gerekli
 
 ### Lisans
 Creative Commons Atıf-GayriTicari-Türetilemez 4.0 Uluslararası Kamu Lisansı ile lisanslanmıştır. Detaylar için LİSANS dosyasına bakın.
