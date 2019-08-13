@@ -2,7 +2,7 @@
 
 
 
-
+//***********************************   EFATURA GÖSTER  ***********************************//
 			function FaturaXslDosyasiOlustur($FaturaXmlDosyasi)
 					{
                         
@@ -89,14 +89,229 @@
 						$html=$xml_xsl_birlestir->transformToXML($xml);
 
 					return $html;
-					}
+				
+//***********************************   EFATURA GÖSTER  ***********************************//	
+
+
+
+
+
+
+
+
+
+
+
+
+//***********************************   SERTİFİKA İNCELEME  ***********************************//
+	
+	
+	function EImzaBul($FaturaXmlDosyasi)
+					{
+						if (! preg_match_all("#<ds:X509Certificate.*?>([^<]+)</ds:X509Certificate>#", $FaturaXmlDosyasi, $eimza_bul) )
+							{
+								$eimza_bul=NULL;
+								return 	$eimza_bul; 
+							}
+						else
+							{
+								return 	$eimza_bul[1][0];
+							}
+					}	
+
+
+
+
+
+
+
+
+	function oid_ismi($aranan_yer)
+		{
+		$oid = array(
+				  //Kamu SM Tarafından Kullanılan Nesne Belirteç (OID) Listesi
+				 "2.16.792.1.2.1.1" => "TÜBİTAK'a ait en üst seviye OID",
+   				 "2.16.792.1.2.1.1.5" => "UEKAE'ye ait en üst seviye OID",
+  				 "2.16.792.1.2.1.1.5.1" => "Pardus işletim sistemine ait en üst seviye OID",
+  				 "2.16.792.1.2.1.1.5.2" => "EKDS Projesine ait en üst seviye OID",
+  				 "2.16.792.1.2.1.1.5.3" => "Mesajlaşma Sistemleri'ne ait en üst seviye OID",
+  				 "2.16.792.1.2.1.1.5.7" => "Kamu SM'ye ait en üst seviye OID",
+  				 "2.16.792.1.2.1.1.5.7.1" => "Kamu SM-sertifika-ilkeleri",
+  				 "2.16.792.1.2.1.1.5.7.1.1" => "Kamu SM-sertifika-ilke-NES",
+  				 "2.16.792.1.2.1.1.5.7.1.2" => "Kamu SM-sertifika-ilke-CES",
+  				 "2.16.792.1.2.1.1.5.7.1.3" => "Kamu SM-sertifika-ilke-SSL",
+  				 "2.16.792.1.2.1.1.5.7.1.4" => "Kamu SM Test - NES, CES ve Kullanıcılar",
+  				 "2.16.792.1.2.1.1.5.7.1.5" => "Kamu SM Test - OCSP, Zaman Damgası",
+  				 "2.16.792.1.2.1.1.5.7.1.6" => "Kamu SM Kişisel Şifreleme Sertifikası",
+  				 "2.16.792.1.2.1.1.5.7.1.7" => "Kamu SM Kişisel Kimlik Doğrulama Sertifikası",
+ 				 "2.16.792.1.2.1.1.5.7.1.8" => "Kamu SM Mobil Nitelikli Elektronik Sertifika",
+ 				 "2.16.792.1.2.1.1.5.7.1.9" => "Kamu SM EV SSL",
+ 				 "2.16.792.1.2.1.1.5.7.2" => "Kamu SM-n-sertifika-ibareler",
+ 				 "2.16.792.1.2.1.1.5.7.2.1" => "Kamu SM-n-sertifika-ibare-1",
+ 				 "2.16.792.1.2.1.1.5.7.3" => "Kamu SM-zd-ilkeler",
+ 				 "2.16.792.1.2.1.1.5.7.3.1" => "Kamu SM-zd-ilke-1",
+ 				 "2.16.792.1.2.1.1.5.7.4" => "Kamu SM-MM-ilkeler",
+ 				 "2.16.792.1.2.1.1.5.7.4.1" => "Kamu SM-MM-ilke-1",
+ 				 "2.16.792.1.2.1.1.5.7.5.1.1" => "Profil P2 için Elektronik İmza Politikası",
+ 				 "2.16.792.1.2.1.1.5.7.5.2.1" => "Profil P3 için Elektronik İmza Politikası",
+ 				 "2.16.792.1.2.1.1.5.7.5.3.1" => "Profil P4 için Elektronik İmza Politikası",
+ 				 "2.16.792.1.2.1.1.5.7.50" => "Kamu SM E-imza Kullanım Kısıtlaması",
+  				 "2.16.792.1.2.1.1.5.7.50.1" => "E-Mühür",
+  			     "2.16.792.1.2.1.1.5.7.50.2" => "Kamu SM Nitelikli Test sertifika kısıtlaması",
+ 				 "2.16.792.1.2.1.1.5.7.50.3" => "Kamu SM Elektronik Kamu Alımları Platformu (EKAP) uygulamaları kısıtlaması",
+	
+                 //EKDS Projesi OID Listesi
+   				 "2.16.792.1.2.1.1.5.2.1.1" => "EKDS Kök SM Sertifika İlkesi",
+  				 "2.16.792.1.2.1.1.5.2.1.2" => "AYSM Sertifika İlkesi",
+  				 "2.16.792.1.2.1.1.5.2.1.3" => "CYSM Sertifika İlkesi",
+  				 "2.16.792.1.2.1.1.5.2.1.4" => "KYSM Sertifika İlkesi",
+  				 "2.16.792.1.2.1.1.5.2.100.1" => "Kart Yayınlama (KYS) Anahtar Kullanımı",
+  				 "2.16.792.1.2.1.1.5.2.100.2" => "Yazılım Yayınlama (YYS) Anahtar Kullanımı",
+  				 "2.16.792.1.2.1.1.5.2.100.3" => "Güvenlik Servisleri (GSP) Anahtar Kullanımı",
+ 				 "2.16.792.1.2.1.1.5.2.100.4" => "Kimlik Doğrulama Politikası Yayınlama (KDPS) Anahtar Kullanımı",
+ 				 "2.16.792.1.2.1.1.5.2.200.1" => "Güvenlik Verisi Özet Değeri (SDO Hash)"
+                );	
+	
+	
+		$sonuc = strtr($aranan_yer, $oid);
+		return $sonuc;
+}
+
+
+
+
+
+
+	function FaturaSertifikaBilgisiOlustur($FaturaXmlDosyasi)
+			{
+				
+			$sertifika_dosyasi =  EImzaBul($FaturaXmlDosyasi);
+			
+			$sertifika_baslangic = "-----BEGIN CERTIFICATE-----";
+			$sertifika_sonu = "-----END CERTIFICATE-----";
+			$sertifika=$sertifika_baslangic."\n".$sertifika_dosyasi."\n".$sertifika_sonu;
+
+			$sertifika_incele = openssl_x509_parse( $sertifika ,true);
+			// $name = $sertifika_incele['name'];
+			$konu = $sertifika_incele['subject'];
+			//$hash = $sertifika_incele['hash'];
+			$sertifikayi_veren = $sertifika_incele['issuer'];
+			$surum = $sertifika_incele['version'];
+			$seri_no = $sertifika_incele['serialNumber'];
+			//$validFrom = $sertifika_incele['validFrom'];
+			//$validTo = $sertifika_incele['validTo'];
+			$gecerlilik_baslangici = $sertifika_incele['validFrom_time_t'];
+			$gecerlilik_sonu = $sertifika_incele['validTo_time_t'];
+			//$signatureTypeSN = $sertifika_incele['signatureTypeSN'];
+			$imza_algoritmasi = $sertifika_incele['signatureTypeLN'];
+			//$signatureTypeNID = $sertifika_incele['signatureTypeNID'];
+			//$purposes = $sertifika_incele['purposes'];
+ 
+			//$extensions = $sertifika_incele['extensions'];
+			$yetkili_anahtari_tanimlayicisi = $sertifika_incele['extensions']['authorityKeyIdentifier'];
+			$konu_anahtari_tanimlayicisi = $sertifika_incele['extensions']['subjectKeyIdentifier'];
+			$anahtar_kullanimi = $sertifika_incele['extensions']['keyUsage'];
+			$sertifika_ilkeleri = $sertifika_incele['extensions']['certificatePolicies'];
+			$temel_kisitlamalar = $sertifika_incele['extensions']['basicConstraints'];
+			$gelismis_anahtar_kullanimi = $sertifika_incele['extensions']['extendedKeyUsage'];
+			$crl_dagitim_noktalari = $sertifika_incele['extensions']['crlDistributionPoints'];
+			$yetkili_bilgi_erisimi = $sertifika_incele['extensions']['authorityInfoAccess'];
+
+			$sertifika_satir_ayir = explode("\n", $sertifika);
+			array_shift($sertifika_satir_ayir);
+			array_pop($sertifika_satir_ayir);
+			$Sertifika_verisi = base64_decode(implode(PHP_EOL, $sertifika_satir_ayir));
+			$sertifika_ozet_b64 = base64_encode(hash('sha256', $Sertifika_verisi, true)); 
+
+			$sertifika_ozet_hex=bin2hex( ($sertifika_ozet_b64) );	
+			$sertifika_ozet_hex= wordwrap($sertifika_ozet_hex , 2 , ':' , true );  //: göster
+
+			$sertifika_ozet_sha1 = sha1( base64_decode($sertifika_dosyasi) );
+			$sertifika_ozet_sha1= wordwrap($sertifika_ozet_sha1 , 2 , ' ' , true );  //boşluklu göster
+
+			$acik_anahtar_detaylari = openssl_pkey_get_details(openssl_pkey_get_public($sertifika));
+			$anahtar_bits=$acik_anahtar_detaylari["bits"];
+			$anahtar_key=$acik_anahtar_detaylari["key"];
+			$anahtar_rsa=$acik_anahtar_detaylari["rsa"];
+			$anahtar_type=$acik_anahtar_detaylari["type"];
+
+			//$anahtar_key=str_replace("-----BEGIN PUBLIC KEY-----","",$anahtar_key);
+			//$anahtar_key=str_replace("-----END PUBLIC KEY-----","",$anahtar_key);
+			//$anahtar_key=str_replace("\n","",$anahtar_key);
+			//$anahtar_key_hex=bin2hex( ($anahtar_key) );
+
+	         $sertifika_bilgi_tablosu = '<table style="border: 1px solid #ddd;padding: 8px;"><tbody>
+             <tr> <td width="auto"> <p><b> Versiyon </b></p> </td> <td width="auto"> <p>'.$surum.'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Sertifika Sahibi </b></p> </td> <td width="auto"> <p>'.$konu['CN'].'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Sertifika Otoritesi </b></p> </td> <td width="auto"> <p>'.$sertifikayi_veren['CN'].'</p> </td> </tr>
+             <tr> <td width="auto"> <p><b> Seri No </b></p> </td> <td width="auto"> <p>'.$seri_no.'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Geçerlilik Tarihi </b></p> </td> <td width="auto"> <p>'.gmdate("d-m-Y H:i:s", $gecerlilik_baslangici)." - ".gmdate("d-m-Y H:i:s", $gecerlilik_sonu).'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Otorite Erişim Belirteci </b></p> </td> <td width="auto"> <p>'.$yetkili_anahtari_tanimlayicisi.'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Özel Anahtar Belirteci </b></p> </td> <td width="auto"> <p>'.$konu_anahtari_tanimlayicisi.'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Anahtar Kullanımı </b></p> </td> <td width="auto"> <p>'.$anahtar_kullanimi.'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Sertifika Politikaları </b></p> </td> <td width="auto"> <p>'.oid_ismi($sertifika_ilkeleri).'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Temel Kısıtlamalar </b></p> </td> <td width="auto"> <p>'.$temel_kisitlamalar.'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Genişletilmiş Anahtar Kullanımı </b></p> </td> <td width="auto"> <p>'.oid_ismi($gelismis_anahtar_kullanimi).'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> SİL Dağıtım Noktaları </b></p> </td> <td width="auto"> <p>'.$crl_dagitim_noktalari.'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Sertifika Otoritesine Erişim </b></p> </td> <td width="auto"> <p>'.$yetkili_bilgi_erisimi.'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Sertifika Açık Anahtarı </b></p> </td> <td width="auto"> <p> </p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Kok (Root) </b></p> </td> <td width="auto"> <p> </p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Sertifika Özet(Hex) </b></p> </td> <td width="auto"> <p>'.$sertifika_ozet_hex.'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> Sertifika Özet(b64) </b></p> </td> <td width="auto"> <p>'.$sertifika_ozet_b64.'</p> </td> </tr>
+             <tr> <td width="auto"> <p><b> Sertifika Özet(sha1) </b></p> </td> <td width="auto"> <p>'.$sertifika_ozet_sha1.'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> İmza Değeri </b></p> </td> <td width="auto"> <p> </p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> İmza Algoritması </b></p> </td> <td width="auto"> <p>'.$imza_algoritmasi.'</p> </td> </tr>
+	         <tr> <td width="auto"> <p><b> XML Gösterim </b></p> </td> <td width="auto"> <p> </p> </td> </tr>
+	         </tbody></table>';
+	
+	
+	         return $sertifika_bilgi_tablosu;
+			}
+	
+	
+	function Pem_Der_Cevir($pem_dosyasi) 
+		{
+			$satirlar = explode("\n", trim($pem_dosyasi));
+			unset($satirlar[count($satirlar)-1]);
+			unset($satirlar[0]);
+			$sonuc = implode('', $satirlar);
+			$sonuc = base64_decode($sonuc);
+			return $sonuc;
+		}
 		
-
-
-
-
-
-
-
-
+		
+		
+		
+		
+     function SertifikaKaydetPEM($kayit_klasoru) 
+		{
+			$sertifika_dosyasi =  EImzaBul($FaturaXmlDosyasi);
+			
+			$sertifika_baslangic = "-----BEGIN CERTIFICATE-----";
+			$sertifika_sonu = "-----END CERTIFICATE-----";
+			$sertifika=$sertifika_baslangic."\n".$sertifika_dosyasi."\n".$sertifika_sonu;
+			
+			$hedef_dosya_adi=$kayit_klasoru."/".$hedefdosyaadi.".pem";
+			$sonuc = openssl_x509_export_to_file ($sertifika,$hedef_dosya_adi, true);
+			return $sonuc;
+		}
+		
+		
+		
+		
+	  function SertifikaKaydetDER($kayit_klasoru) 
+		{
+			$sertifika_dosyasi =  EImzaBul($FaturaXmlDosyasi);
+			
+			$sertifika_baslangic = "-----BEGIN CERTIFICATE-----";
+			$sertifika_sonu = "-----END CERTIFICATE-----";
+			$sertifika=$sertifika_baslangic."\n".$sertifika_dosyasi."\n".$sertifika_sonu;
+			
+			$hedef_dosya_adi=$kayit_klasoru."/".$hedefdosyaadi.".der";
+            $sonuc=file_put_contents( $hedef_dosya_adi,Pem_Der_Cevir($sertifika));
+ 
+			return $sonuc;
+		}
+	
+//***********************************   SERTİFİKA İNCELEME  ***********************************//
 ?>
