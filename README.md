@@ -21,12 +21,15 @@ include 'efaturagoster.php';
 
 $FaturaXslDosyasi= FaturaXslDosyasiOlustur($FaturaXmlDosyasi);
 $FaturaHtmlDosyasi=FaturaHtmlDosyasiOlustur($FaturaXmlDosyasi);
+$FaturaSertifikaBilgisi=FaturaSertifikaBilgisiOlustur($FaturaXmlDosyasi);
 
 echo $FaturaHtmlDosyasi;
  ``` 
  
 ## Gereksinimleri
 PHP XSL eklentisi        (extension=php_xsl.dll)
+
+PHP OpenSSL eklentisi      (extension=php_openssl.dll)    //E-imza Sertifikası İnceleme için gerekli
 
 PHP FileInfo eklentisi   (extension=php_fileinfo.dll)    //Önbellekli Demo için gerekli
 
