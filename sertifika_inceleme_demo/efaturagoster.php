@@ -284,7 +284,7 @@
 		
 		
 		
-     function SertifikaKaydetPEM($kayit_klasoru) 
+     function SertifikaKaydetPEM($FaturaXmlDosyasi,$hedef_dosya_adi) 
 		{
 			$sertifika_dosyasi =  EImzaBul($FaturaXmlDosyasi);
 			
@@ -292,7 +292,6 @@
 			$sertifika_sonu = "-----END CERTIFICATE-----";
 			$sertifika=$sertifika_baslangic."\n".$sertifika_dosyasi."\n".$sertifika_sonu;
 			
-			$hedef_dosya_adi=$kayit_klasoru."/".$hedefdosyaadi.".pem";
 			$sonuc = openssl_x509_export_to_file ($sertifika,$hedef_dosya_adi, true);
 			return $sonuc;
 		}
@@ -300,7 +299,7 @@
 		
 		
 		
-	  function SertifikaKaydetDER($kayit_klasoru) 
+	  function SertifikaKaydetDER($FaturaXmlDosyasi,$hedef_dosya_adi) 
 		{
 			$sertifika_dosyasi =  EImzaBul($FaturaXmlDosyasi);
 			
@@ -308,7 +307,6 @@
 			$sertifika_sonu = "-----END CERTIFICATE-----";
 			$sertifika=$sertifika_baslangic."\n".$sertifika_dosyasi."\n".$sertifika_sonu;
 			
-			$hedef_dosya_adi=$kayit_klasoru."/".$hedefdosyaadi.".der";
             $sonuc=file_put_contents( $hedef_dosya_adi,Pem_Der_Cevir($sertifika));
  
 			return $sonuc;
