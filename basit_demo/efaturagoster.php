@@ -89,7 +89,8 @@
 						$html=$xml_xsl_birlestir->transformToXML($xml);
 
 					return $html;
-				
+	                                 }
+
 //***********************************   EFATURA GÖSTER  ***********************************//	
 
 
