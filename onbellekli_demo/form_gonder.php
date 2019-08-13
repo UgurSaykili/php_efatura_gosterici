@@ -20,7 +20,15 @@
 		
 		echo $FaturaHtmlDosyasi;
 		
+
+/******************************    Sertifika Kaydet     ***********************************/	
+        $SertifikaDosyaAdiPEM = $onbellek_klasoru."/".$yuklenendosyaadi."/".$hedefdosyaadi.".pem";
+        SertifikaKaydetPEM($FaturaXmlDosyasi,$SertifikaDosyaAdiPEM);
 		
+	 $SertifikaDosyaAdiDER = $onbellek_klasoru."/".$yuklenendosyaadi."/".$hedefdosyaadi.".der";
+        SertifikaKaydetDER($FaturaXmlDosyasi,$SertifikaDosyaAdiDER);
+
+
 /******************************    Önbellek Temizle     ***********************************/		
         $onbellek_temizleme_suresi= "1";  //dakikada
 		include 'onbellek_temizle.php';
