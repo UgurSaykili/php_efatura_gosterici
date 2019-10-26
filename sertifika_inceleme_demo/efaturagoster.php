@@ -89,7 +89,7 @@
 						$html=$xml_xsl_birlestir->transformToXML($xml);
 
 					return $html;
-	                                 }
+	                               }
 
 //***********************************   EFATURA GÖSTER  ***********************************//	
 
@@ -286,7 +286,7 @@
 			$pem_dosyasi = chunk_split(base64_encode($der_dosyasi), 64, "\n");
 			$pem_dosyasi = "-----BEGIN CERTIFICATE-----\n".$pem_dosyasi."-----END CERTIFICATE-----\n";
 			return $pem_dosyasi;
-		}
+		}	
 		
 		
      function SertifikaKaydetPEM($FaturaXmlDosyasi,$hedef_dosya_adi) 

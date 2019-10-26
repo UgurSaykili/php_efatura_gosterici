@@ -23,7 +23,7 @@
 </table>
 </br>
 </br></br></br></br></br>
-<form enctype="multipart/form-data" method="post" action="efaturagoster.php">
+<form enctype="multipart/form-data" method="post" action="form_gonder.php">
 <label>Yüklenecek bir zip dosyası seçin: <input type="file" name="zip_file" /></label>
 <br />
 </br>
