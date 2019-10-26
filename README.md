@@ -15,7 +15,6 @@
 
 6)E-imza sertifika bilgilerini gösterir.
 
-Geliştirici: Murat KARAGÖZ (murat.karagoz@hotmail.com.tr)
 
 ## Kullanımı
 ```php
